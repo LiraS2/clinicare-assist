@@ -1,0 +1,22 @@
+{
+  "name": "servico-geracao-pdf",
+  "version": "1.0.0",
+  "description": "Microsserviço para geração de PDFs",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "nodemon index.js"
+  },
+  "dependencies": {
+    "express": "^4.18.2",
+    "cors": "^2.8.5",
+    "helmet": "^7.1.0",
+    "dotenv": "^16.3.1",
+    "puppeteer": "^21.5.2",
+    "handlebars": "^4.7.8"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.2"
+  }
+}

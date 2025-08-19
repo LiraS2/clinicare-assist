@@ -1,0 +1,22 @@
+{
+  "name": "servico-notificacoes",
+  "version": "1.0.0",
+  "description": "Microsserviço para envio de notificações",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "nodemon index.js"
+  },
+  "dependencies": {
+    "express": "^4.18.2",
+    "cors": "^2.8.5",
+    "helmet": "^7.1.0",
+    "dotenv": "^16.3.1",
+    "twilio": "^4.19.0",
+    "nodemailer": "^6.9.7"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.2"
+  }
+}
