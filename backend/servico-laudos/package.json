@@ -13,7 +13,8 @@
     "cors": "^2.8.5",
     "helmet": "^7.1.0",
     "dotenv": "^16.3.1",
-    "@supabase/supabase-js": "^2.54.0"
+    "@supabase/supabase-js": "^2.54.0",
+    "jsonwebtoken": "^9.0.2"
   },
   "devDependencies": {
     "nodemon": "^3.0.2"
