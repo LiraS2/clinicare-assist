@@ -7,13 +7,87 @@ export type Json =
   | Json[]
 
 export type Database = {
-  // Allows to automatically instanciate createClient with right options
+  // Allows to automatically instantiate createClient with right options
   // instead of createClient<Database, { PostgrestVersion: 'XX' }>(URL, KEY)
   __InternalSupabase: {
     PostgrestVersion: "13.0.4"
   }
   public: {
     Tables: {
+      audit_log: {
+        Row: {
+          action: string
+          changed_by_user_id: string | null
+          log_id: string
+          new_data_jsonb: Json | null
+          old_data_jsonb: Json | null
+          record_id: string
+          table_name: string
+          timestamp: string
+        }
+        Insert: {
+          action: string
+          changed_by_user_id?: string | null
+          log_id?: string
+          new_data_jsonb?: Json | null
+          old_data_jsonb?: Json | null
+          record_id: string
+          table_name: string
+          timestamp?: string
+        }
+        Update: {
+          action?: string
+          changed_by_user_id?: string | null
+          log_id?: string
+          new_data_jsonb?: Json | null
+          old_data_jsonb?: Json | null
+          record_id?: string
+          table_name?: string
+          timestamp?: string
+        }
+        Relationships: []
+      }
+      medical_reports: {
+        Row: {
+          content_jsonb: Json | null
+          created_at: string
+          created_by_user_id: string
+          patient_id: string
+          report_id: string
+          signed_pdf_path: string | null
+          status: string
+          updated_at: string
+        }
+        Insert: {
+          content_jsonb?: Json | null
+          created_at?: string
+          created_by_user_id: string
+          patient_id: string
+          report_id?: string
+          signed_pdf_path?: string | null
+          status?: string
+          updated_at?: string
+        }
+        Update: {
+          content_jsonb?: Json | null
+          created_at?: string
+          created_by_user_id?: string
+          patient_id?: string
+          report_id?: string
+          signed_pdf_path?: string | null
+          status?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "medical_reports_patient_id_fkey"
+            columns: ["patient_id"]
+            isOneToOne: false
+            referencedRelation: "patients"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       patients: {
         Row: {
           absenteeism_risk_score: number | null
