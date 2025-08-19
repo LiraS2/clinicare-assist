@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 
 const Index = () => {
   return (
-    <div className="min-h-screen flex items-center justify-center bg-background">
+    <div className="flex items-center justify-center bg-background min-h-screen">
       <Helmet>
         <title>MediConnect | Gestão de Clínicas</title>
         <meta name="description" content="MediConnect - Gestão de pacientes para reduzir o absenteísmo." />
