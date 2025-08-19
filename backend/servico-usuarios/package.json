@@ -1,20 +1,20 @@
 {
-  "name": "api-gateway",
+  "name": "servico-usuarios",
   "version": "1.0.0",
-  "description": "API Gateway para MediConnect",
+  "description": "Serviço de autenticação e gestão de usuários do Clinicare Assist",
   "main": "index.js",
-  
   "scripts": {
     "start": "node index.js",
     "dev": "nodemon index.js"
   },
   "dependencies": {
     "express": "^4.18.2",
-    "http-proxy-middleware": "^2.0.6",
     "cors": "^2.8.5",
     "helmet": "^7.1.0",
-    "express-rate-limit": "^7.1.5",
+    "bcryptjs": "^2.4.3",
     "jsonwebtoken": "^9.0.2",
+    "express-rate-limit": "^7.1.5",
+    "joi": "^17.11.0",
     "dotenv": "^16.3.1"
   },
   "devDependencies": {

@@ -7,27 +7,33 @@ services:
       - "3000:3000"
     environment:
       - PORT=3000
-      - LAUDOS_SERVICE_URL=http://servico-laudos:3001
-      - PDF_SERVICE_URL=http://servico-geracao-pdf:3002
-      - NOTIFICATIONS_SERVICE_URL=http://servico-notificacoes:3003
+      - JWT_SECRET=${JWT_SECRET:-clinicare-secret-key}
+      - JWT_REFRESH_SECRET=${JWT_REFRESH_SECRET:-clinicare-refresh-secret}
+      - SERVICE_USUARIOS_URL=http://servico-usuarios:3001
+      - SERVICE_LAUDOS_URL=http://servico-laudos:3002
+      - SERVICE_PDF_URL=http://servico-geracao-pdf:3003
+      - SERVICE_NOTIFICACOES_URL=http://servico-notificacoes:3004
     depends_on:
+      - servico-usuarios
       - servico-laudos
       - servico-geracao-pdf
       - servico-notificacoes
     networks:
       - mediconnect-network
 
-  servico-laudos:
-    build: ./servico-laudos
+  servico-usuarios:
+    build: ./servico-usuarios
     ports:
       - "3001:3001"
     environment:
       - PORT=3001
+      - JWT_SECRET=${JWT_SECRET:-clinicare-secret-key}
+      - JWT_REFRESH_SECRET=${JWT_REFRESH_SECRET:-clinicare-refresh-secret}
     networks:
       - mediconnect-network
 
-  servico-geracao-pdf:
-    build: ./servico-geracao-pdf
+  servico-laudos:
+    build: ./servico-laudos
     ports:
       - "3002:3002"
     environment:
@@ -35,12 +41,21 @@ services:
     networks:
       - mediconnect-network
 
-  servico-notificacoes:
-    build: ./servico-notificacoes
+  servico-geracao-pdf:
+    build: ./servico-geracao-pdf
     ports:
       - "3003:3003"
     environment:
       - PORT=3003
+    networks:
+      - mediconnect-network
+
+  servico-notificacoes:
+    build: ./servico-notificacoes
+    ports:
+      - "3004:3004"
+    environment:
+      - PORT=3004
     networks:
       - mediconnect-network
 
