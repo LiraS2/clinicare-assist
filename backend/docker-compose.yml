@@ -13,11 +13,13 @@ services:
       - SERVICE_LAUDOS_URL=http://servico-laudos:3002
       - SERVICE_PDF_URL=http://servico-geracao-pdf:3003
       - SERVICE_NOTIFICACOES_URL=http://servico-notificacoes:3004
+      - SERVICE_ASSINATURA_URL=http://servico-assinatura:3005
     depends_on:
       - servico-usuarios
       - servico-laudos
       - servico-geracao-pdf
       - servico-notificacoes
+      - servico-assinatura
     networks:
       - mediconnect-network
 
@@ -56,6 +58,20 @@ services:
       - "3004:3004"
     environment:
       - PORT=3004
+    networks:
+      - mediconnect-network
+
+  servico-assinatura:
+    build: ./servico-assinatura
+    ports:
+      - "3005:3005"
+    environment:
+      - PORT=3005
+      - INTERNAL_API_KEY=${INTERNAL_API_KEY:-clinicare-internal-key-2024}
+      - PKI_EXPRESS_LICENSE=${PKI_EXPRESS_LICENSE}
+      - PKI_EXPRESS_ENDPOINT=${PKI_EXPRESS_ENDPOINT}
+    volumes:
+      - ./servico-assinatura/temp:/app/temp
     networks:
       - mediconnect-network
 

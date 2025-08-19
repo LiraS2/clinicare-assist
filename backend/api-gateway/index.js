@@ -30,7 +30,8 @@ const services = {
   'servico-usuarios': process.env.SERVICE_USUARIOS_URL || 'http://localhost:3001',
   'servico-laudos': process.env.SERVICE_LAUDOS_URL || 'http://localhost:3002',
   'servico-geracao-pdf': process.env.SERVICE_PDF_URL || 'http://localhost:3003',
-  'servico-notificacoes': process.env.SERVICE_NOTIFICACOES_URL || 'http://localhost:3004'
+  'servico-notificacoes': process.env.SERVICE_NOTIFICACOES_URL || 'http://localhost:3004',
+  'servico-assinatura': process.env.SERVICE_ASSINATURA_URL || 'http://localhost:3005'
 };
 
 // Mapeamento de rotas protegidas e suas permissões necessárias
@@ -162,7 +163,49 @@ app.get('/health', (req, res) => {
     service: 'api-gateway',
     timestamp: new Date().toISOString(),
     services: Object.keys(services)
-  });
+});
+
+// Roteamento para Serviço de Assinatura Digital
+app.use('/api/assinatura/*', async (req, res) => {
+  const path = req.originalUrl.replace('/api/assinatura', '');
+  const targetUrl = `${services['servico-assinatura']}${path}`;
+  
+  try {
+    // Adicionar chave interna para serviços protegidos
+    const headers = {
+      ...req.headers,
+      'x-api-key': process.env.INTERNAL_API_KEY || 'clinicare-internal-key-2024'
+    };
+    
+    const response = await fetch(targetUrl, {
+      method: req.method,
+      headers: headers,
+      body: req.method !== 'GET' ? JSON.stringify(req.body) : undefined
+    });
+    
+    const data = await response.text();
+    
+    // Para PDFs assinados, retornar o buffer diretamente
+    if (response.headers.get('content-type')?.includes('application/pdf')) {
+      res.setHeader('Content-Type', 'application/pdf');
+      res.setHeader('Content-Length', response.headers.get('content-length'));
+      res.setHeader('Content-Disposition', response.headers.get('content-disposition'));
+      return res.send(data);
+    }
+    
+    // Para outras respostas JSON
+    res.status(response.status);
+    if (response.headers.get('content-type')?.includes('application/json')) {
+      res.json(JSON.parse(data));
+    } else {
+      res.send(data);
+    }
+  } catch (error) {
+    console.error('Erro no roteamento para servico-assinatura:', error);
+    res.status(500).json({
+      error: 'Erro interno no gateway - servico-assinatura indisponível'
+    });
+  }
 });
 
 // Proxy para serviço de usuários
