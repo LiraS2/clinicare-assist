@@ -10,6 +10,7 @@ import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
 import PatientListPage from "./pages/patients/PatientListPage";
 import PatientFormPage from "./pages/patients/PatientFormPage";
+import EditorLaudoPage from "./pages/laudos/EditorLaudoPage";
 
 const queryClient = new QueryClient();
 
@@ -29,6 +30,7 @@ const App = () => (
                   <Route path="/patients" element={<PatientListPage />} />
                   <Route path="/patients/new" element={<PatientFormPage />} />
                   <Route path="/patients/:id/edit" element={<PatientFormPage />} />
+                  <Route path="/laudos/editor" element={<EditorLaudoPage />} />
                   {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
                   <Route path="*" element={<NotFound />} />
                 </Routes>
